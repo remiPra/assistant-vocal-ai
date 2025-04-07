@@ -1,10 +1,11 @@
+// webpack.config.js
 const path = require('path');
 
 module.exports = {
   entry: './js/main.js',
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'public'),  // Changez 'dist' en 'public'
   },
-  mode: 'development', // ou 'production' pour la minification
+  mode: 'development',
 };
