@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Détection et Transcription Vocale avec IA</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- ONNX Runtime et VAD scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web@1.14.0/dist/ort.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@ricky0123/vad-web@0.0.22/dist/bundle.min.js"></script>
+    <!-- Modules JavaScript -->
+    <script type="module" src="js/main.js"></script>
+    <!-- <script src="dist/bundle.js"></script> -->
+</head>
+<body class="bg-gray-100 p-4">
+    <div class="container mx-auto max-w-lg">
+        <h1 class="text-2xl font-bold mb-6 text-center">Assistant Vocal Intelligent</h1>
+        
+        <div class="bg-white p-6 rounded-xl shadow-md">
+            <div class="mb-6 text-center">
+                <div id="status-indicator" class="w-20 h-20 rounded-full mx-auto flex items-center justify-center bg-gray-300 transition-colors duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+                    </svg>
+                </div>
+                <p id="status-text" class="mt-3 font-medium">En attente de démarrer</p>
+            </div>
+            
+            <div class="flex justify-center space-x-4 mb-6">
+                <button id="start-button" class="px-4 py-2 rounded-md bg-blue-500 text-white hover:bg-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-300">
+                    Démarrer
+                </button>
+                <button id="stop-button" class="px-4 py-2 rounded-md bg-gray-300 text-gray-500 cursor-not-allowed transition-colors" disabled>
+                    Arrêter
+                </button>
+                <button id="mute-button" class="px-4 py-2 rounded-md bg-yellow-500 text-white hover:bg-yellow-600 transition-colors focus:outline-none focus:ring-2 focus:ring-yellow-300 cursor-not-allowed" disabled>
+                    Couper Micro
+                </button>
+            </div>
+            
+            <div id="audio-segments" class="mb-4">
+                <h3 class="font-medium mb-2">Segments audio: <span id="segments-count">0</span></h3>
+                <div id="segments-list" class="max-h-32 overflow-y-auto bg-gray-100 p-2 rounded-md text-sm"></div>
+            </div>
+
+            <div class="mt-6">
+                <h3 class="font-bold text-lg mb-2">Conversation</h3>
+                <div id="conversation-list" class="max-h-80 overflow-y-auto bg-gray-100 p-3 rounded-md"></div>
+            </div>
+
+            <div class="mt-6">
+                <label for="api-key" class="block text-sm font-medium text-gray-700 mb-1">Clé API Groq:</label>
+                <input type="password" id="api-key" class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300" placeholder="Entrez votre clé API Groq ici">
+                <p class="text-xs text-gray-500 mt-1">La clé sera sauvegardée localement pour faciliter son utilisation.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
