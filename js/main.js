@@ -1,6 +1,7 @@
 import { VoiceDetector } from './audio/vad.js';
 import { TranscriptionService } from './api/transcription.js';
 import { ChatService } from './api/chat.js';
+import { TTSService } from './api/tts.js'; // Ajouter cette ligne
 import { UIManager } from './ui/interface.js';
 import { ConversationManager } from './ui/conversation.js';
 import { StorageManager } from './utils/storage.js';
@@ -12,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const conversation = new ConversationManager(document.getElementById('conversation-list'));
     const transcriptionService = new TranscriptionService();
     const chatService = new ChatService();
+    const ttsService = new TTSService(); // Ajouter cette ligne
     
     // Variables d'état
     let voiceDetector = null;
@@ -119,6 +121,9 @@ document.addEventListener('DOMContentLoaded', () => {
             // Mettre à jour le message assistant avec la réponse
             conversation.updateAssistantMessage(segmentId, response);
             
+            // Synthétiser la réponse en audio
+            await ttsService.speak(response);
+            
         } catch (error) {
             // Vérifier si l'erreur est due à une annulation volontaire
             if (error.name === 'AbortError') {
@@ -151,6 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Annuler les requêtes en cours
         transcriptionService.cancel();
         chatService.cancel();
+        ttsService.cancel(); // Ajouter cette ligne
         
         // Réinitialiser l'état
         processing = false;
