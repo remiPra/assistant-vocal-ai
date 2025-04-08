@@ -1,18 +1,14 @@
 // js/api/tts.js
-/**
- * Service de synthèse vocale
- */
 export class TTSService {
     constructor() {
         this.currentAbortController = null;
         this.audioElement = new Audio();
+        this.isSpeaking = false; // Ajouter cet indicateur
+        this.onSpeakingStarted = null; // Callback quand la parole commence
+        this.onSpeakingEnded = null; // Callback quand la parole se termine
+        this.onSpeakingInterrupted = null; // Callback en cas d'interruption
     }
 
-    /**
-     * Synthétise un texte en parole
-     * @param {string} text - Texte à synthétiser
-     * @returns {Promise<void>} Promise résolue après la lecture audio
-     */
     async speak(text) {
         if (!text) {
             return;
@@ -48,13 +44,24 @@ export class TTSService {
                 URL.revokeObjectURL(this.audioElement.src);
             }
             
-            // Définir la nouvelle source et lire l'audio
+            // Définir la nouvelle source
             this.audioElement.src = audioUrl;
             
             return new Promise((resolve) => {
+                // Quand l'audio commence
+                this.audioElement.onplay = () => {
+                    this.isSpeaking = true;
+                    if (this.onSpeakingStarted) this.onSpeakingStarted();
+                };
+                
+                // Quand l'audio se termine naturellement
                 this.audioElement.onended = () => {
+                    this.isSpeaking = false;
+                    if (this.onSpeakingEnded) this.onSpeakingEnded();
                     resolve();
                 };
+                
+                // Lancer la lecture
                 this.audioElement.play();
             });
         } finally {
@@ -62,18 +69,23 @@ export class TTSService {
         }
     }
 
-    /**
-     * Annule la requête de synthèse vocale en cours
-     */
     cancel() {
+        // Annuler la requête en cours
         if (this.currentAbortController) {
             this.currentAbortController.abort();
             this.currentAbortController = null;
         }
         
+        // Arrêter l'audio en cours
         if (this.audioElement) {
             this.audioElement.pause();
             this.audioElement.currentTime = 0;
+            
+            // Indiquer que la parole a été interrompue
+            if (this.isSpeaking) {
+                this.isSpeaking = false;
+                if (this.onSpeakingInterrupted) this.onSpeakingInterrupted();
+            }
         }
     }
 }

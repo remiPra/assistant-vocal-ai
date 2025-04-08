@@ -10,10 +10,38 @@
     <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web@1.14.0/dist/ort.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@ricky0123/vad-web@0.0.22/dist/bundle.min.js"></script>
     <!-- Modules JavaScript -->
-    <!-- <script type="module" src="js/main.js"></script> -->
-    <script src="/bundle.js"></script>
+    <script type="module" src="js/main.js"></script>
+    <!-- <script src="/bundle.js"></script> -->
 </head>
 <body class="bg-gray-100 p-4">
+    <!-- Bouton pour ouvrir le menu -->
+<button id="drawer-toggle" class="fixed top-4 left-4 z-50 bg-gray-800 text-white px-3 py-2 rounded-md shadow-md">
+    ☰ Menu
+</button>
+<!-- Menu latéral -->
+ <!-- Drawer -->
+<div id="drawer" class="fixed top-0 left-0 h-full w-64 bg-white shadow-lg transform -translate-x-full transition-transform duration-300 z-40">
+    <div class="p-4 border-b font-bold text-lg">Menu</div>
+    <div class="p-4 space-y-4">
+       
+            
+
+        <div class="mt-6">
+            <label for="api-key" class="block text-sm font-medium text-gray-700 mb-1">Clé API Groq:</label>
+            <input type="password" id="api-key" class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300" placeholder="Entrez votre clé API Groq ici">
+            <p class="text-xs text-gray-500 mt-1">La clé sera sauvegardée localement pour faciliter son utilisation.</p>
+        </div>
+        <div id="audio-segments" class="mb-4">
+            <h3 class="font-medium mb-2">Segments audio: <span id="segments-count">0</span></h3>
+            <div id="segments-list" class="max-h-32 overflow-y-auto bg-gray-100 p-2 rounded-md text-sm"></div>
+        </div>
+
+        <button class="w-full text-left px-4 py-2 bg-green-100 rounded-md hover:bg-green-200">Réinitialiser</button>
+        <button class="w-full text-left px-4 py-2 bg-red-100 rounded-md hover:bg-red-200">Historique</button>
+        <!-- Ajoute d'autres boutons ici -->
+    </div>
+</div>
+
     <div class="container mx-auto max-w-lg">
         <h1 class="text-2xl font-bold mb-6 text-center">Assistant Vocal Intelligent</h1>
         
@@ -38,23 +66,24 @@
                     Couper Micro
                 </button>
             </div>
-            
-            <div id="audio-segments" class="mb-4">
-                <h3 class="font-medium mb-2">Segments audio: <span id="segments-count">0</span></h3>
-                <div id="segments-list" class="max-h-32 overflow-y-auto bg-gray-100 p-2 rounded-md text-sm"></div>
-            </div>
-
+       
             <div class="mt-6">
                 <h3 class="font-bold text-lg mb-2">Conversation</h3>
                 <div id="conversation-list" class="max-h-80 overflow-y-auto bg-gray-100 p-3 rounded-md"></div>
             </div>
 
-            <div class="mt-6">
-                <label for="api-key" class="block text-sm font-medium text-gray-700 mb-1">Clé API Groq:</label>
-                <input type="password" id="api-key" class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300" placeholder="Entrez votre clé API Groq ici">
-                <p class="text-xs text-gray-500 mt-1">La clé sera sauvegardée localement pour faciliter son utilisation.</p>
-            </div>
         </div>
     </div>
 </body>
+<script>
+    const drawer = document.getElementById("drawer");
+    const toggleBtn = document.getElementById("drawer-toggle");
+
+    toggleBtn.addEventListener("click", () => {
+        drawer.classList.toggle("-translate-x-full");
+    });
+
+    // Tu peux aussi ajouter un bouton pour fermer dans le menu si besoin
+</script>
+
 </html>
