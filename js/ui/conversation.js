@@ -42,7 +42,10 @@ export class ConversationManager {
     updateUserMessage(id, text) {
         const message = document.getElementById(`message-${id}`);
         if (message) {
-            message.querySelector('div:last-child div:last-child').textContent = text;
+            const contentDiv = message.querySelector('div:last-child div:last-child');
+            contentDiv.innerHTML = ''; // Vider le contenu
+            contentDiv.textContent = text; // Ajouter le nouveau texte
+            contentDiv.classList.remove('animate-pulse');
         }
         this.scrollToBottom();
     }
@@ -81,7 +84,8 @@ export class ConversationManager {
         const message = document.getElementById(`response-${id}`);
         if (message) {
             const contentDiv = message.querySelector('div:last-child div:last-child');
-            contentDiv.textContent = text;
+            contentDiv.innerHTML = ''; // Vider le contenu
+            contentDiv.textContent = text; // Ajouter le nouveau texte
             contentDiv.classList.remove('animate-pulse');
         }
         this.scrollToBottom();
@@ -90,13 +94,14 @@ export class ConversationManager {
     /**
      * Ajoute un message d'information
      * @param {string} text - Texte informatif
-     * @param {string} type - Type de message (info, error, success)
+     * @param {string} type - Type de message (info, error, success, warning)
      */
     addInfoMessage(text, type = 'info') {
         const colors = {
             info: 'bg-blue-100',
             error: 'bg-red-100',
-            success: 'bg-green-100'
+            success: 'bg-green-100',
+            warning: 'bg-yellow-100'
         };
         
         const message = document.createElement('div');
@@ -112,28 +117,36 @@ export class ConversationManager {
     scrollToBottom() {
         this.container.scrollTop = this.container.scrollHeight;
     }
+
     /**
- * Ajoute un message utilisateur provenant de l'input texte
- * @param {number} id - Identifiant du message
- * @param {string} text - Texte du message
- */
-addUserTextMessage(id, text) {
-    const message = document.createElement('div');
-    message.className = 'p-3 mb-2 bg-blue-50 rounded-md flex items-start';
-    message.id = `message-${id}`;
-    message.innerHTML = `
-        <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white mr-2 flex-shrink-0">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-            </svg>
-        </div>
-        <div class="flex-grow">
-            <div class="text-sm text-blue-700 mb-1">Vous (texte)</div>
-            <div>${text}</div>
-        </div>
-    `;
-    this.container.appendChild(message);
-    this.scrollToBottom();
-    return message;
-}
+     * Ajoute un message utilisateur provenant de l'input texte
+     * @param {number} id - Identifiant du message
+     * @param {string} text - Texte du message
+     */
+    addUserTextMessage(id, text) {
+        const message = document.createElement('div');
+        message.className = 'p-3 mb-2 bg-blue-50 rounded-md flex items-start';
+        message.id = `message-${id}`;
+        message.innerHTML = `
+            <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white mr-2 flex-shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+            </div>
+            <div class="flex-grow">
+                <div class="text-sm text-blue-700 mb-1">Vous (texte)</div>
+                <div>${text}</div>
+            </div>
+        `;
+        this.container.appendChild(message);
+        this.scrollToBottom();
+        return message;
+    }
+
+    /**
+     * Vide la conversation
+     */
+    clearConversation() {
+        this.container.innerHTML = '';
+    }
 }

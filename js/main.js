@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let processing = false;
     let wasInterrupted = false;
     let isInterrupting = false;
+    let messageCounter = 0; // Compteur global pour les identifiants de message
     
     // Configurer les callbacks du ttsService
     ttsService.onSpeakingStarted = () => {
@@ -151,8 +152,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     throw new Error("Aucune clé API fournie");
                 }
                 
-                // Créer un ID pour ce message
-                const messageId = segments.length + 1;
+                // Incrémenter le compteur global et créer un ID unique
+                const messageId = ++messageCounter;
                 
                 // Ajouter le message à l'interface
                 conversation.addUserTextMessage(messageId, message);
@@ -215,8 +216,11 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Ajouter le segment à la liste
         segments.push(audioData);
-        const segmentId = segments.length;
-        ui.addSegment(segmentId, audioData.length / 16000);
+        
+        // Incrémenter le compteur global et créer un ID unique
+        const segmentId = ++messageCounter;
+        
+        ui.addSegment(segments.length, audioData.length / 16000);
         
         try {
             // Signaler que le traitement commence
@@ -326,6 +330,9 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // Effacer l'historique du chat
             chatService.clearHistory();
+            
+            // Réinitialiser le compteur de messages
+            messageCounter = 0;
             
             // Informer l'utilisateur
             conversation.addInfoMessage('Conversation réinitialisée', 'success');

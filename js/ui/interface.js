@@ -101,6 +101,14 @@ export class UIManager {
     }
 
     /**
+     * Réinitialise les segments
+     */
+    resetSegments() {
+        this.elements.segmentsCount.textContent = '0';
+        this.elements.segmentsList.innerHTML = '';
+    }
+
+    /**
      * Récupère la clé API
      * @returns {string} Clé API
      */
