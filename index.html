@@ -12,6 +12,11 @@
     <!-- Modules JavaScript -->
     <!-- <script type="module" src="js/main.js"></script> -->
     <script src="/bundle.js"></script>
+    <link rel="stylesheet" href="css/main.css">
+    <!-- slider js -->
+     <!-- Dans la section head, après les autres scripts -->
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+     <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
 </head>
 <body class="bg-gray-100 p-4">
     <!-- Bouton pour ouvrir le menu -->
@@ -74,6 +79,35 @@
 
         </div>
     </div>
+    <div class="container mx-auto max-w-lg mb-6">
+        <div class="swiper-container bg-white p-4 rounded-xl shadow-md">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide p-4 text-center">
+                    <h3 class="text-xl font-semibold mb-2">Bienvenue</h3>
+                    <p>Assistant vocal intelligent pour vos conversations</p>
+                </div>
+                <div class="swiper-slide p-4 text-center">
+                    <div class="mt-4 mb-6">
+                        <form id="text-input-form" class="flex space-x-2">
+                            <input type="text" id="text-input" placeholder="Ou tapez votre message ici..." 
+                                   class="flex-grow px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300">
+                            <button type="submit" id="send-text-button" class="px-4 py-2 rounded-md bg-green-500 text-white hover:bg-green-600 transition-colors focus:outline-none focus:ring-2 focus:ring-green-300">
+                                Envoyer
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                <div class="swiper-slide p-4 text-center">
+                    <h3 class="text-xl font-semibold mb-2">Commencez</h3>
+                    <p>Cliquez sur Démarrer et posez votre première question</p>
+                </div>
+            </div>
+            <!-- Pagination -->
+            <div class="swiper-pagination"></div>
+        </div>
+    </div>
+    <!-- Ajouter ceci quelque part dans votre HTML, peut-être juste avant la fin du body -->
+<audio id="tts-player" style="display:none;" controls></audio>
 </body>
 <script>
     const drawer = document.getElementById("drawer");

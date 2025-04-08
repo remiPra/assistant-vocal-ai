@@ -112,4 +112,28 @@ export class ConversationManager {
     scrollToBottom() {
         this.container.scrollTop = this.container.scrollHeight;
     }
+    /**
+ * Ajoute un message utilisateur provenant de l'input texte
+ * @param {number} id - Identifiant du message
+ * @param {string} text - Texte du message
+ */
+addUserTextMessage(id, text) {
+    const message = document.createElement('div');
+    message.className = 'p-3 mb-2 bg-blue-50 rounded-md flex items-start';
+    message.id = `message-${id}`;
+    message.innerHTML = `
+        <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white mr-2 flex-shrink-0">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            </svg>
+        </div>
+        <div class="flex-grow">
+            <div class="text-sm text-blue-700 mb-1">Vous (texte)</div>
+            <div>${text}</div>
+        </div>
+    `;
+    this.container.appendChild(message);
+    this.scrollToBottom();
+    return message;
+}
 }
