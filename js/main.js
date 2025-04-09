@@ -66,41 +66,50 @@ document.addEventListener('DOMContentLoaded', () => {
             // Initialiser le détecteur vocal
             voiceDetector = new VoiceDetector({
                 onSpeechStart: () => {
-                    console.log("Parole détectée");
-                    
-                    // Vérifier si le TTS est en cours et l'interrompre
-                    if (ttsService.isSpeaking) {
-                        console.log("Interruption du TTS");
-                        isInterrupting = true;
-                        ttsService.cancel();
-                    }
-                    
-                    if (!voiceDetector.isMuted()) {
-                        ui.updateUI(true, true);
-                    }
-                },
-                onSpeechEnd: (audio) => {
-                    console.log("Fin de parole, audio length:", audio.length);
-                    
-                    // Si c'est une interruption, traiter l'audio même si processing est true
-                    if (!voiceDetector.isMuted() && (isInterrupting || !processing)) {
-                        ui.updateUI(true, false);
-                        
-                        // Forcer l'arrêt du traitement précédent si c'était une interruption
-                        if (isInterrupting) {
-                            console.log("Traitement audio après interruption");
-                            // Annuler les requêtes précédentes si nécessaire
-                            transcriptionService.cancel();
-                            chatService.cancel();
-                            
-                            // Réinitialiser l'état de traitement
-                            processing = false;
-                            isInterrupting = false;
-                        }
-                        
-                        processAudioSegment(audio);
-                    }
-                },
+    console.log("Parole détectée");
+    
+    // Vérifier si le TTS est en cours et l'interrompre IMMÉDIATEMENT
+    if (ttsService.isSpeaking) {
+        console.log("Interruption du TTS");
+        isInterrupting = true;
+        ttsService.cancel();
+        
+        // Ajouter cette ligne pour signaler visuellement l'interruption immédiatement
+        conversation.addInfoMessage("Assistant interrompu", "warning");
+        
+        // Forcer la mise à jour de l'UI immédiatement
+        ui.updateUI(true, true);
+        
+        // IMPORTANT: Annuler aussi les requêtes en cours immédiatement
+        transcriptionService.cancel();
+        chatService.cancel();
+        
+        // Réinitialiser immédiatement l'état de traitement
+        processing = false;
+    }
+    
+    if (!voiceDetector.isMuted()) {
+        ui.updateUI(true, true);
+    }
+},onSpeechEnd: (audio) => {
+    console.log("Fin de parole, audio length:", audio.length);
+    
+    // Si le micro n'est pas en sourdine, traiter l'audio
+    if (!voiceDetector.isMuted()) {
+        ui.updateUI(true, false);
+        
+        // Traiter l'audio même en cas d'interruption
+        if (audio && audio.length >= 100) {
+            processAudioSegment(audio);
+        } else {
+            console.warn("Segment audio trop court ou invalide", audio?.length);
+        }
+        
+        // Réinitialiser le flag d'interruption après traitement
+        isInterrupting = false;
+    }
+},
+                
                 onError: (error) => {
                     console.error("Erreur de détection vocale:", error);
                     conversation.addInfoMessage(`Erreur: ${error.message}`, 'error');
