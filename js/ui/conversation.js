@@ -16,17 +16,14 @@ export class ConversationManager {
      */
     addPendingUserMessage(id) {
         const message = document.createElement('div');
-        message.className = 'p-3 mb-2 bg-blue-50 rounded-md flex items-start';
+        message.className = 'message user mb-6 flex justify-end';
         message.id = `message-${id}`;
         message.innerHTML = `
-            <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white mr-2 flex-shrink-0">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                </svg>
-            </div>
-            <div class="flex-grow">
-                <div class="text-sm text-blue-700 mb-1">Vous</div>
+            <div class="bg-blue-900 text-white p-4 rounded-2xl rounded-tr-none shadow-md max-w-[80%]">
                 <div><span class="inline-block animate-pulse">Transcription en cours...</span></div>
+                <div class="flex justify-end mt-1">
+                    <span class="text-xs text-blue-200">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
+                </div>
             </div>
         `;
         this.container.appendChild(message);
@@ -42,7 +39,7 @@ export class ConversationManager {
     updateUserMessage(id, text) {
         const message = document.getElementById(`message-${id}`);
         if (message) {
-            const contentDiv = message.querySelector('div:last-child div:last-child');
+            const contentDiv = message.querySelector('div div:first-child');
             contentDiv.innerHTML = ''; // Vider le contenu
             contentDiv.textContent = text; // Ajouter le nouveau texte
             contentDiv.classList.remove('animate-pulse');
@@ -57,17 +54,14 @@ export class ConversationManager {
      */
     addPendingAssistantMessage(id) {
         const message = document.createElement('div');
-        message.className = 'p-3 mb-2 bg-gray-50 rounded-md flex items-start';
+        message.className = 'message assistant mb-6 flex justify-start';
         message.id = `response-${id}`;
         message.innerHTML = `
-            <div class="w-8 h-8 rounded-full bg-purple-500 flex items-center justify-center text-white mr-2 flex-shrink-0">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                </svg>
-            </div>
-            <div class="flex-grow">
-                <div class="text-sm text-purple-700 mb-1">Assistant</div>
+            <div class="bg-slate-100 p-4 rounded-2xl rounded-tl-none shadow-sm max-w-[80%] text-slate-800">
                 <div><span class="inline-block animate-pulse">Génération de la réponse...</span></div>
+                <div class="flex justify-start mt-1">
+                    <span class="text-xs text-slate-500">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
+                </div>
             </div>
         `;
         this.container.appendChild(message);
@@ -83,7 +77,7 @@ export class ConversationManager {
     updateAssistantMessage(id, text) {
         const message = document.getElementById(`response-${id}`);
         if (message) {
-            const contentDiv = message.querySelector('div:last-child div:last-child');
+            const contentDiv = message.querySelector('div div:first-child');
             contentDiv.innerHTML = ''; // Vider le contenu
             contentDiv.textContent = text; // Ajouter le nouveau texte
             contentDiv.classList.remove('animate-pulse');
@@ -98,14 +92,14 @@ export class ConversationManager {
      */
     addInfoMessage(text, type = 'info') {
         const colors = {
-            info: 'bg-blue-100',
-            error: 'bg-red-100',
-            success: 'bg-green-100',
-            warning: 'bg-yellow-100'
+            info: 'bg-slate-200 text-slate-800',
+            error: 'bg-red-100 text-red-800',
+            success: 'bg-green-100 text-green-800',
+            warning: 'bg-amber-100 text-amber-800'
         };
         
         const message = document.createElement('div');
-        message.className = `p-3 mb-2 ${colors[type]} rounded-md text-center`;
+        message.className = `p-3 mb-4 ${colors[type]} rounded-md text-center text-sm max-w-[80%] mx-auto shadow-sm`;
         message.textContent = text;
         this.container.appendChild(message);
         this.scrollToBottom();
@@ -125,17 +119,14 @@ export class ConversationManager {
      */
     addUserTextMessage(id, text) {
         const message = document.createElement('div');
-        message.className = 'p-3 mb-2 bg-blue-50 rounded-md flex items-start';
+        message.className = 'message user mb-6 flex justify-end';
         message.id = `message-${id}`;
         message.innerHTML = `
-            <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white mr-2 flex-shrink-0">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                </svg>
-            </div>
-            <div class="flex-grow">
-                <div class="text-sm text-blue-700 mb-1">Vous (texte)</div>
-                <div>${text}</div>
+            <div class="bg-blue-900 text-white p-4 rounded-2xl rounded-tr-none shadow-md max-w-[80%]">
+                <p>${text}</p>
+                <div class="flex justify-end mt-1">
+                    <span class="text-xs text-blue-200">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
+                </div>
             </div>
         `;
         this.container.appendChild(message);

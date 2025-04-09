@@ -14,7 +14,8 @@
     <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web@1.14.0/dist/ort.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@ricky0123/vad-web@0.0.22/dist/bundle.min.js"></script>
     <!-- Modules JavaScript -->
-    <script src="/bundle.js"></script>
+    <!-- <script src="/bundle.js"></script> -->
+     <script type="module" src="js/main.js"></script>
     <link rel="stylesheet" href="/css/main.css">
     <!-- slider js -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
@@ -108,25 +109,7 @@
                 <h3 class="font-bold text-lg text-slate-800">Conversation</h3>
             </div>
             <div id="conversation-list" class="min-h-[500px] max-h-[500px] overflow-y-auto p-5 scrollbar-thin">
-                <!-- User Message -->
-                <div class="message user mb-6 flex justify-end">
-                    <div class="bg-blue-900 text-white p-4 rounded-2xl rounded-tr-none shadow-md max-w-[80%]">
-                        <p>Exemple de message utilisateur</p>
-                        <div class="flex justify-end mt-1">
-                            <span class="text-xs text-blue-200">14:22</span>
-                        </div>
-                    </div>
-                </div>
                 
-                <!-- Assistant Message -->
-                <div class="message assistant mb-6 flex justify-start">
-                    <div class="bg-slate-100 p-4 rounded-2xl rounded-tl-none shadow-sm max-w-[80%] text-slate-800">
-                        <p>Exemple de réponse de l'assistant</p>
-                        <div class="flex justify-start mt-1">
-                            <span class="text-xs text-slate-500">14:23</span>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
