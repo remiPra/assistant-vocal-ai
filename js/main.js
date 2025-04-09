@@ -198,11 +198,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         stopRecordButton.classList.add('bg-slate-200', 'text-slate-400', 'cursor-not-allowed');
                         
                         // S'assurer que la détection vocale ne démarre pas automatiquement
-                        if (voiceDetector && voiceDetector.isListening()) {
-                            console.log("Arrêt de la détection vocale après enregistrement");
+                        
                             voiceDetector.stop();
-                            ui.updateUI(false);
-                        }
+                            // ui.updateUI(false);
+                        
                     },
                     onRecordingComplete: async (audioData) => {
                         console.log("Enregistrement terminé, traitement en cours");
@@ -238,8 +237,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 const stopButton = document.getElementById('stop-button');
                 
                 // Forcer l'affichage correct quoi qu'il arrive
-                startButton.style.display = 'flex';
-                stopButton.style.display = 'none';
+                startButton.style.display = 'flex !important';
+                stopButton.style.display = 'none !important';
             }
         });
     }
