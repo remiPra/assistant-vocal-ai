@@ -15,7 +15,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@ricky0123/vad-web@0.0.22/dist/bundle.min.js"></script>
     <!-- Modules JavaScript -->
     <script src="/bundle.js"></script>
-     <!-- <script type="module" src="js/main.js"></script> -->
+     <!-- <script type="module" src="/js/main.js"></script> -->
     <link rel="stylesheet" href="/css/main.css">
     <!-- slider js -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
@@ -51,9 +51,17 @@
             <button id="drawer-toggle" class="text-white hover:text-blue-200 transition-colors">
                 <i class="fas fa-bars text-xl"></i>
             </button>
-            <h1 class="text-2xl text-white font-bold tracking-wide">Assistant</h1>
-            <div id="status-indicator" class="w-12 h-12 rounded-full flex items-center justify-center bg-slate-200/30 backdrop-blur-sm transition-colors duration-300 shadow-inner">
-                <i class="fas fa-microphone text-white text-lg"></i>
+            <div class="flex items-center ">
+                <h1 class="mr-1 text-2xl text-white font-bold tracking-wide">Assistant</h1>
+                <div id="status-indicator" class="px-3 py-3 rounded-full flex items-center justify-center bg-slate-200/30 backdrop-blur-sm transition-colors duration-300 shadow-inner">
+                    <i class="fas fa-microphone text-white text-lg"></i>
+                </div>
+            </div>
+            <div class="flex items-center ">
+                <button id="mute-button" class="px-4 py-4 mr-1 rounded-full bg-amber-500 text-white hover:bg-amber-600 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 shadow-md disabled:opacity-60 disabled:cursor-not-allowed flex items-center" disabled>
+                    <i class="fas fa-microphone-slash "></i> 
+                </button>
+                
             </div>
         </div>
     </div>
@@ -123,14 +131,12 @@
                     <div class="swiper-slide p-2">
                         <div class="flex justify-center space-x-3">
                             <button id="start-button" class="px-5 py-3 rounded-full bg-blue-800 text-white hover:bg-blue-900 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-md flex items-center">
-                                <i class="fas fa-play mr-2"></i> Démarrer
+                                <i class="fas fa-play mr-2"></i> 
                             </button>
                             <button id="stop-button" class="px-5 py-3 rounded-full bg-slate-200 text-slate-400 hover:bg-slate-300 transition-colors focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 shadow-md disabled:opacity-60 disabled:cursor-not-allowed flex items-center" disabled>
-                                <i class="fas fa-stop mr-2"></i> Arrêter
+                                <i class="fas fa-stop mr-2"></i> 
                             </button>
-                            <button id="mute-button" class="px-5 py-3 rounded-full bg-amber-500 text-white hover:bg-amber-600 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 shadow-md disabled:opacity-60 disabled:cursor-not-allowed flex items-center" disabled>
-                                <i class="fas fa-microphone-slash mr-2"></i> Couper
-                            </button>
+                            
                         </div>
                     </div>
                     
