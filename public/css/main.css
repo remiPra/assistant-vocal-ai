@@ -1,0 +1,33 @@
+    /* Styles pour Swiper optimisés pour mobile */
+    .swiper-container {
+        width: 100%;
+        min-height: 50px;
+        overflow: hidden;
+    }
+    
+    .swiper-slide {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 15px;
+    }
+    
+    .swiper-pagination-bullet {
+        width: 8px;
+        height: 8px;
+        background: #ddd;
+        opacity: 1;
+    }
+    
+    .swiper-pagination-bullet-active {
+        background: #3B82F6;
+    }
+    
+    /* Ajustements pour écrans plus petits */
+    @media (max-width: 640px) {
+        .swiper-slide {
+            min-height: 80px;
+        }
+    }
