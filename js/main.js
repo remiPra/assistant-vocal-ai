@@ -69,49 +69,50 @@ document.addEventListener('DOMContentLoaded', () => {
             // Initialiser le détecteur vocal
             voiceDetector = new VoiceDetector({
                 onSpeechStart: () => {
-    console.log("Parole détectée");
-    
-    // Vérifier si le TTS est en cours et l'interrompre IMMÉDIATEMENT
-    if (ttsService.isSpeaking) {
-        console.log("Interruption du TTS");
-        isInterrupting = true;
-        ttsService.cancel();
-        
-        // Ajouter cette ligne pour signaler visuellement l'interruption immédiatement
-        // conversation.addInfoMessage("Assistant interrompu", "warning");
-        
-        // Forcer la mise à jour de l'UI immédiatement
-        ui.updateUI(true, true);
-        
-        // IMPORTANT: Annuler aussi les requêtes en cours immédiatement
-        transcriptionService.cancel();
-        chatService.cancel();
-        
-        // Réinitialiser immédiatement l'état de traitement
-        processing = false;
-    }
-    
-    if (!voiceDetector.isMuted()) {
-        ui.updateUI(true, true);
-    }
-},onSpeechEnd: (audio) => {
-    console.log("Fin de parole, audio length:", audio.length);
-    
-    // Si le micro n'est pas en sourdine, traiter l'audio
-    if (!voiceDetector.isMuted()) {
-        ui.updateUI(true, false);
-        
-        // Traiter l'audio même en cas d'interruption
-        if (audio && audio.length >= 100) {
-            processAudioSegment(audio);
-        } else {
-            console.warn("Segment audio trop court ou invalide", audio?.length);
-        }
-        
-        // Réinitialiser le flag d'interruption après traitement
-        isInterrupting = false;
-    }
-},
+                    console.log("Parole détectée");
+                    
+                    // Vérifier si le TTS est en cours et l'interrompre IMMÉDIATEMENT
+                    if (ttsService.isSpeaking) {
+                        console.log("Interruption du TTS");
+                        isInterrupting = true;
+                        ttsService.cancel();
+                        
+                        // Ajouter cette ligne pour signaler visuellement l'interruption immédiatement
+                        // conversation.addInfoMessage("Assistant interrompu", "warning");
+                        
+                        // Forcer la mise à jour de l'UI immédiatement
+                        ui.updateUI(true, true);
+                        
+                        // IMPORTANT: Annuler aussi les requêtes en cours immédiatement
+                        transcriptionService.cancel();
+                        chatService.cancel();
+                        
+                        // Réinitialiser immédiatement l'état de traitement
+                        processing = false;
+                    }
+                    
+                    if (!voiceDetector.isMuted()) {
+                        ui.updateUI(true, true);
+                    }
+                },
+                onSpeechEnd: (audio) => {
+                    console.log("Fin de parole, audio length:", audio.length);
+                    
+                    // Si le micro n'est pas en sourdine, traiter l'audio
+                    if (!voiceDetector.isMuted()) {
+                        ui.updateUI(true, false);
+                        
+                        // Traiter l'audio même en cas d'interruption
+                        if (audio && audio.length >= 100) {
+                            processAudioSegment(audio);
+                        } else {
+                            console.warn("Segment audio trop court ou invalide", audio?.length);
+                        }
+                        
+                        // Réinitialiser le flag d'interruption après traitement
+                        isInterrupting = false;
+                    }
+                },
                 
                 onError: (error) => {
                     console.error("Erreur de détection vocale:", error);
@@ -146,11 +147,15 @@ document.addEventListener('DOMContentLoaded', () => {
             ui.updateMuteState(voiceDetector.isMuted());
         }
     });
-    //icii c'est recorder 
+    
+    // Gestion des boutons d'enregistrement manuel
     const recordButton = document.getElementById('record-button');
     const stopRecordButton = document.getElementById('stop-record-button');
     
-    
+    // Cacher initialement le bouton stop d'enregistrement
+    if (stopRecordButton) {
+        stopRecordButton.style.display = 'none';
+    }
 
     if (recordButton && stopRecordButton) {
         recordButton.addEventListener('click', async () => {
@@ -160,6 +165,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     onRecordingStart: () => {
                         console.log("Enregistrement manuel démarré");
                         
+                        // Basculer l'affichage des boutons
+                        recordButton.style.display = 'none';
+                        stopRecordButton.style.display = 'flex';
+                        
                         // Mettre à jour l'UI
                         recordButton.disabled = true;
                         recordButton.classList.add('bg-gray-300', 'text-gray-500', 'cursor-not-allowed');
@@ -167,13 +176,17 @@ document.addEventListener('DOMContentLoaded', () => {
                         
                         stopRecordButton.disabled = false;
                         stopRecordButton.classList.add('bg-red-500', 'text-white', 'hover:bg-red-600');
-                        stopRecordButton.classList.remove('bg-gray-300', 'text-gray-500', 'cursor-not-allowed');
+                        stopRecordButton.classList.remove('bg-slate-200', 'text-slate-400', 'cursor-not-allowed');
                         
                         // Ajouter un message d'information
                         conversation.addInfoMessage("Enregistrement en cours...", "info");
                     },
                     onRecordingStop: () => {
                         console.log("Enregistrement manuel arrêté");
+                        
+                        // Basculer l'affichage des boutons
+                        stopRecordButton.style.display = 'none';
+                        recordButton.style.display = 'flex';
                         
                         // Mettre à jour l'UI
                         recordButton.disabled = false;
@@ -182,7 +195,14 @@ document.addEventListener('DOMContentLoaded', () => {
                         
                         stopRecordButton.disabled = true;
                         stopRecordButton.classList.remove('bg-red-500', 'text-white', 'hover:bg-red-600');
-                        stopRecordButton.classList.add('bg-gray-300', 'text-gray-500', 'cursor-not-allowed');
+                        stopRecordButton.classList.add('bg-slate-200', 'text-slate-400', 'cursor-not-allowed');
+                        
+                        // S'assurer que la détection vocale ne démarre pas automatiquement
+                        if (voiceDetector && voiceDetector.isListening()) {
+                            console.log("Arrêt de la détection vocale après enregistrement");
+                            voiceDetector.stop();
+                            ui.updateUI(false);
+                        }
                     },
                     onRecordingComplete: async (audioData) => {
                         console.log("Enregistrement terminé, traitement en cours");
@@ -212,9 +232,18 @@ document.addEventListener('DOMContentLoaded', () => {
         stopRecordButton.addEventListener('click', () => {
             if (audioRecorder && audioRecorder.isRecording()) {
                 audioRecorder.stopRecording();
+                
+                // Force l'état visuel correct pour les boutons de détection vocale
+                const startButton = document.getElementById('start-button');
+                const stopButton = document.getElementById('stop-button');
+                
+                // Forcer l'affichage correct quoi qu'il arrive
+                startButton.style.display = 'flex';
+                stopButton.style.display = 'none';
             }
         });
     }
+    
     // Ajout de la gestion de l'input texte
     const textForm = document.getElementById('text-input-form');
     if (textForm) {
@@ -376,14 +405,16 @@ document.addEventListener('DOMContentLoaded', () => {
         if (voiceDetector) {
             voiceDetector.stop();
         }
-         // Arrêter l'enregistreur manuel
-         if (audioRecorder) {
+        
+        // Arrêter l'enregistreur manuel
+        if (audioRecorder) {
             if (audioRecorder.isRecording()) {
                 audioRecorder.stopRecording();
             }
             audioRecorder.dispose();
             audioRecorder = null;
         }
+        
         // Annuler les requêtes en cours
         transcriptionService.cancel();
         chatService.cancel();
@@ -397,12 +428,26 @@ document.addEventListener('DOMContentLoaded', () => {
         // Mettre à jour l'UI
         ui.updateUI(false);
         
+        // Réinitialiser l'affichage des boutons d'enregistrement si nécessaire
+        if (recordButton && stopRecordButton) {
+            stopRecordButton.style.display = 'none';
+            recordButton.style.display = 'flex';
+            
+            recordButton.disabled = false;
+            recordButton.classList.remove('bg-gray-300', 'text-gray-500', 'cursor-not-allowed');
+            recordButton.classList.add('bg-indigo-700', 'text-white', 'hover:bg-indigo-800');
+            
+            stopRecordButton.disabled = true;
+            stopRecordButton.classList.remove('bg-red-500', 'text-white', 'hover:bg-red-600');
+            stopRecordButton.classList.add('bg-slate-200', 'text-slate-400', 'cursor-not-allowed');
+        }
+        
         // Informer l'utilisateur
         conversation.addInfoMessage('Session arrêtée', 'info');
     }
     
     // Gestionnaire pour le bouton de réinitialisation dans le menu latéral
-    const resetButton = document.querySelector('button.bg-green-100');
+    const resetButton = document.querySelector('button.bg-emerald-50');
     if (resetButton) {
         resetButton.addEventListener('click', () => {
             // Arrêter tout
