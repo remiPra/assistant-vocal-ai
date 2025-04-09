@@ -11,18 +11,26 @@
     <script src="https://cdn.jsdelivr.net/npm/@ricky0123/vad-web@0.0.22/dist/bundle.min.js"></script>
     <!-- Modules JavaScript -->
     
-    <!-- <script type="module" src="/js/main.js"></script> -->
-    <script src="/bundle.js"></script>
+    <script type="module" src="/js/main.js"></script>
+    <!-- <script src="/bundle.js"></script> -->
     <link rel="stylesheet" href="/css/main.css">
     <!-- slider js -->
      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
      <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
 </head>
-<body class="bg-gray-100 p-4 flex flex-col min-h-screen">
+<body class="bg-gray-100 flex flex-col min-h-screen">
     <!-- Bouton pour ouvrir le menu -->
-    <button id="drawer-toggle" class="fixed top-4 left-4 z-50 bg-gray-800 text-white px-3 py-2 rounded-md shadow-md">
-        ☰ Menu
-    </button>
+     <div class="fixed top-0 left-0 z-50 flex justify-around items-baseline bg-gray-800 w-full">
+         <button id="drawer-toggle" class="  text-white px-3 py-2 rounded-md shadow-md">
+             ☰ Menu
+            </button>
+            <h1 class="text-2xl text-white font-bold mb-6 text-center ">Assistant</h1>
+            <div id="status-indicator" class="w-16 h-16 rounded-full flex items-center justify-center bg-gray-300 transition-colors duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+                </svg>
+            </div>
+        </div>
     
     <!-- Menu latéral -->
     <div id="drawer" class="fixed top-0 left-0 h-full w-64 bg-white shadow-lg transform -translate-x-full transition-transform duration-300 z-40">
@@ -37,6 +45,10 @@
                 <h3 class="font-medium mb-2">Segments audio: <span id="segments-count">0</span></h3>
                 <div id="segments-list" class="max-h-32 overflow-y-auto bg-gray-100 p-2 rounded-md text-sm"></div>
             </div>
+            <div class="mb-4 text-center">
+               
+                <p id="status-text" class="mt-2 font-medium">En attente de démarrer</p>
+            </div>
 
             <button class="w-full text-left px-4 py-2 bg-green-100 rounded-md hover:bg-green-200">Réinitialiser</button>
             <button class="w-full text-left px-4 py-2 bg-red-100 rounded-md hover:bg-red-200">Historique</button>
@@ -45,13 +57,14 @@
 
     <!-- Contenu principal -->
     <div class="container mx-auto max-w-lg flex-grow mb-24">
-        <h1 class="text-2xl font-bold mb-6 text-center">Assistant Vocal Intelligent</h1>
-        
+        <div class="flex mt-20 justi">
+     
+    </div>
         <!-- Zone de conversation avec design amélioré -->
-        <div class="bg-white p-6 rounded-xl shadow-md">
-            <div class="mt-4">
+        <div class="bg-white h-[500px] p-1 rounded-xl shadow-md">
+            <div>
                 <h3 class="font-bold text-lg mb-2">Conversation</h3>
-                <div id="conversation-list" class="max-h-80 overflow-y-auto bg-gray-100 p-3 rounded-md">
+                <div id="conversation-list" class="min-h-[500px] max-h-80 overflow-y-auto p-3 rounded-md">
                     <!-- Messages du chat avec design amélioré -->
                     <div class="message user mb-3">
                         <div class="bg-blue-100 p-3 rounded-lg inline-block max-w-[80%] ml-auto mr-0 text-right">
@@ -77,14 +90,7 @@
                 <div class="swiper-wrapper">
                     <!-- Premier slide avec les contrôles de l'assistant vocal -->
                     <div class="swiper-slide p-4 text-center">
-                        <div class="mb-4 text-center">
-                            <div id="status-indicator" class="w-16 h-16 rounded-full mx-auto flex items-center justify-center bg-gray-300 transition-colors duration-300">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
-                                </svg>
-                            </div>
-                            <p id="status-text" class="mt-2 font-medium">En attente de démarrer</p>
-                        </div>
+                        
                         
                         <div class="flex justify-center space-x-4">
                             <button id="start-button" class="px-4 py-2 rounded-md bg-blue-500 text-white hover:bg-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-300">

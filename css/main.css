@@ -1,7 +1,7 @@
     /* Styles pour Swiper optimisés pour mobile */
     .swiper-container {
         width: 100%;
-        min-height: 150px;
+        min-height: 50px;
         overflow: hidden;
     }
     
@@ -28,6 +28,6 @@
     /* Ajustements pour écrans plus petits */
     @media (max-width: 640px) {
         .swiper-slide {
-            min-height: 140px;
+            min-height: 80px;
         }
     }
