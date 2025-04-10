@@ -2,17 +2,17 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  // Plusieurs points d'entrée si tu veux plusieurs pages plus tard
   entry: {
     main: './js/main.js',
-    // simple: './js/simple.js', // ajoute d'autres si tu veux d'autres pages
+    simple: './js/simple.js', // ← Active cette ligne
+    kevin:'./js/kevin.js'
   },
   output: {
-    filename: '[name].bundle.js', // ça donne "main.bundle.js"
+    filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'public'),
-    clean: true, // nettoie le dossier à chaque build
+    clean: true,
   },
-  mode: 'development', // change en 'production' pour le build final
+  mode: 'development',
   devServer: {
     static: {
       directory: path.join(__dirname, 'public'),
@@ -23,17 +23,19 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      filename: 'index.html', // nom du fichier de sortie
-      template: './index.html', // fichier source HTML
-      chunks: ['main'], // injecte le bon script pour ce fichier
+      filename: 'index.html',
+      template: './index.html',
+      chunks: ['main'],
     }),
-    // Tu pourrais rajouter d'autres pages comme ça :
-    /*
     new HtmlWebpackPlugin({
-      filename: 'simpl.html',
-      template: './simpl.html',
-      chunks: ['simple'],
+      filename: 'simple.html',       // ← Génère public/simple.html
+      template: './simple.html',     // ← Doit exister à la racine
+      chunks: ['simple'],            // ← Utilise simple.bundle.js
     }),
-    */
+    new HtmlWebpackPlugin({
+      filename: 'kevin.html',       // ← Génère public/simple.html
+      template: './kevin.html',     // ← Doit exister à la racine
+      chunks: ['kevin'],            // ← Utilise simple.bundle.js
+    }),
   ],
 };

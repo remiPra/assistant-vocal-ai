@@ -350,6 +350,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             
             const transcription = await transcriptionService.transcribe(audioData, apiKey);
+            
             console.log("Transcription:", transcription);
             
             // Mettre à jour le message utilisateur avec la transcription

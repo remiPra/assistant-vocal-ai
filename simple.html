@@ -15,7 +15,6 @@
     <script src="https://cdn.jsdelivr.net/npm/@ricky0123/vad-web@0.0.22/dist/bundle.min.js"></script>
     <!-- Modules JavaScript -->
     <!-- <script src="/bundle.js"></script> -->
-     <script type="module" src="/js/main.js"></script>
     <link rel="stylesheet" href="/css/main.css">
     <!-- slider js -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
@@ -87,8 +86,9 @@
                 </div>
                 <p class="text-xs text-slate-500 mt-2">La clé sera sauvegardée localement.</p>
             </div>
+            <a href="/index.html">Aller à la page accueil</a>
             <a href="/simple.html">Aller à la page simple</a>
-
+            <a href="/kevin.html">Aller à la page Kevin</a>
             <div class="bg-slate-50 rounded-lg p-4 shadow-sm">
                 <h3 class="font-medium mb-3 text-slate-700 flex items-center">
                     <i class="fas fa-layer-group mr-2 text-blue-800"></i>
@@ -137,14 +137,6 @@
                                 <i class="fas fa-stop mr-2"></i> 
                             </button>
                             
-                        
-                        <!-- Recording Controls Slide -->
-                            <button id="record-button" class="px-5 py-3 rounded-full bg-indigo-700 text-white hover:bg-indigo-800 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 shadow-md flex items-center">
-                                <i class="fas fa-circle mr-2 text-red-500"></i> 
-                            </button>
-                            <button id="stop-record-button" class="px-5 py-3 rounded-full bg-slate-200 text-slate-400 hover:bg-slate-300 transition-colors focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 shadow-md disabled:opacity-60 disabled:cursor-not-allowed flex items-center" disabled>
-                                <i class="fas fa-stop mr-2"></i> Stop
-                            </button>
                     
                 
 
@@ -168,31 +160,6 @@
     <!-- Audio Player (hidden) -->
     <audio id="tts-player" style="display:none;" controls></audio>
 
-    <script>
-        // Sidebar toggle
-        const drawer = document.getElementById("drawer");
-        const toggleBtn = document.getElementById("drawer-toggle");
-        const closeBtn = document.getElementById("close-drawer");
-
-        toggleBtn.addEventListener("click", () => {
-            drawer.classList.toggle("-translate-x-full");
-        });
-
-        closeBtn.addEventListener("click", () => {
-            drawer.classList.add("-translate-x-full");
-        });
-
-        // Initialize Swiper
-        document.addEventListener('DOMContentLoaded', function() {
-            const swiper = new Swiper('.swiper-container', {
-                pagination: {
-                    el: '.swiper-pagination',
-                    clickable: true,
-                },
-                loop: false,
-                slidesPerView: 1,
-            });
-        });
-    </script>
+   
 </body>
 </html>
